@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KribiZone — La vie à Kribi, digitalisée</title>
+<meta name="description" content="Hôtels, restaurants, transport, urgences, activités — tout Kribi sur une seule plateforme. Syndicat Patronal des Industries de l'Hôtellerie, Département de l'Océan.">
+<meta property="og:title" content="KribiZone — La vie à Kribi, digitalisée">
+<meta property="og:description" content="La première plateforme digitale de Kribi, Cameroun.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kribizone.com">
+<meta name="theme-color" content="#006B7D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --ocean:#006B7D;--ocean-deep:#004552;--ocean-light:#00A8C6;
+  --sand:#F5E6C8;--sand-dark:#E8C98A;
+  --green:#2D6A4F;--green-light:#52B788;
+  --sunset:#E07B39;--sunset-warm:#F4A261;
+  --white:#FDFAF5;--dark:#0D1B1E;--text:#1A2E33;--muted:#6B8A90;
+  --r:14px;--shadow:0 6px 24px rgba(0,0,0,.08);--shadow-lg:0 16px 48px rgba(0,0,0,.13);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--text);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Playfair Display',serif}
+a{color:var(--ocean);text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,27,30,.88);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.07);padding:1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;transition:background .3s}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-.5px}
+.nav-logo span{color:var(--ocean-light)}
+.nav-links{display:flex;gap:1.8rem;list-style:none}
+.nav-links a{color:rgba(255,255,255,.72);font-size:.82rem;font-weight:500;text-transform:uppercase;letter-spacing:.6px;transition:color .2s}
+.nav-links a:hover{color:var(--ocean-light)}
+.nav-cta{background:var(--sunset);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.82rem;cursor:pointer;transition:all .2s}
+.nav-cta:hover{background:var(--sunset-warm);transform:translateY(-1px)}
+.nav-toggle{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer}
+
+/* HERO */
+.hero{min-height:100vh;background:var(--dark);display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 50%,rgba(0,107,125,.45) 0%,transparent 60%),radial-gradient(ellipse 50% 70% at 15% 80%,rgba(45,106,79,.3) 0%,transparent 50%),radial-gradient(ellipse 40% 40% at 85% 10%,rgba(224,123,57,.2) 0%,transparent 50%)}
+.hero-grid{position:absolute;inset:0;opacity:.04;background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:60px 60px}
+.hero-content{position:relative;z-index:2;padding:0 2.5rem;max-width:780px;animation:fadeUp .9s ease forwards}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,168,198,.15);border:1px solid rgba(0,168,198,.3);color:var(--ocean-light);padding:.4rem 1rem;border-radius:50px;font-size:.75rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--ocean-light);border-radius:50%;animation:pulse 1.5s infinite}
+.hero h1{font-size:clamp(3rem,7vw,5.5rem);font-weight:900;line-height:1.06;color:#fff;margin-bottom:1rem}
+.hero h1 em{font-style:italic;color:var(--ocean-light)}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.65);line-height:1.7;max-width:520px;margin-bottom:2.5rem;font-weight:300}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{background:var(--sunset);color:#fff;padding:1rem 2.2rem;border-radius:50px;font-weight:600;font-size:.92rem;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--sunset-warm);transform:translateY(-2px);box-shadow:0 12px 30px rgba(224,123,57,.4);color:#fff}
+.btn-outline{border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:1rem 2.2rem;border-radius:50px;font-weight:500;font-size:.92rem;transition:all .2s;backdrop-filter:blur(8px);display:inline-block}
+.btn-outline:hover{border-color:var(--ocean-light);color:var(--ocean-light);transform:translateY(-2px)}
+.hero-stats{position:absolute;right:2.5rem;bottom:10rem;display:flex;flex-direction:column;gap:1.2rem;z-index:2}
+.stat{background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1.2rem 1.4rem;text-align:center;min-width:120px}
+.stat-num{font-family:'Space Mono',monospace;font-size:1.8rem;font-weight:700;color:var(--ocean-light);display:block}
+.stat-lbl{font-size:.68rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;margin-top:.25rem;display:block}
+.hero-wave{position:absolute;bottom:0;left:0;right:0}
+.hero-wave svg{display:block}
+
+/* SEARCH */
+.search-section{background:var(--white);padding:2.5rem 2.5rem}
+.search-wrap{max-width:860px;margin:0 auto}
+.search-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:1.3rem}
+.search-bar{display:flex;background:#fff;border:2px solid var(--sand-dark);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);transition:border-color .2s,box-shadow .2s}
+.search-bar:focus-within{border-color:var(--ocean);box-shadow:0 8px 30px rgba(0,107,125,.15)}
+.search-bar select{border:none;outline:none;padding:1rem 1.2rem;font-family:'DM Sans',sans-serif;font-size:.88rem;color:var(--text);background:var(--sand);border-right:2px solid var(--sand-dark);cursor:pointer;min-width:155px}
+.search-bar input{flex:1;border:none;outline:none;padding:1rem 1.4rem;font-family:'DM Sans',sans-serif;font-size:.92rem;color:var(--text)}
+.search-bar input::placeholder{color:var(--muted)}
+.search-btn{background:var(--ocean);color:#fff;border:none;padding:1rem 1.8rem;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;transition:background .2s;display:flex;align-items:center;gap:.4rem}
+.search-btn:hover{background:var(--ocean-deep)}
+.search-tags{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.1rem;justify-content:center}
+.tag{background:var(--sand);color:var(--ocean-deep);padding:.4rem .9rem;border-radius:50px;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .2s;border:1px solid transparent}
+.tag:hover{background:var(--ocean);color:#fff}
+
+/* SECTIONS */
+.section{padding:5rem 2.5rem;max-width:1300px;margin:0 auto}
+.section-alt{background:rgba(245,230,200,.3)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem}
+.sec-label{font-family:'Space Mono',monospace;font-size:.7rem;color:var(--ocean);text-transform:uppercase;letter-spacing:2px;margin-bottom:.4rem}
+.sec-title{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;line-height:1.2}
+.sec-bar{width:48px;height:4px;background:var(--ocean-light);border-radius:2px;margin-top:.8rem}
+.sec-link{color:var(--ocean);font-weight:600;font-size:.85rem;display:flex;align-items:center;gap:.3rem;transition:gap .2s}
+.sec-link:hover{gap:.6rem}
+
+/* CATÉGORIES */
+.cats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem}
+.cat-card{background:var(--white);border:1.5px solid var(--sand-dark);border-radius:18px;padding:1.6rem 1rem;text-align:center;cursor:pointer;transition:all .25s;text-decoration:none;color:var(--text);display:flex;flex-direction:column;align-items:center;gap:.7rem}
+.cat-card:hover{border-color:var(--ocean);background:var(--ocean);color:#fff;transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,107,125,.2)}
+.cat-card:hover .cat-count{color:rgba(255,255,255,.7)}
+.cat-icon{font-size:1.9rem;transition:filter .25s}
+.cat-card:hover .cat-icon{filter:brightness(10)}
+.cat-name{font-weight:600;font-size:.82rem;line-height:1.3}
+.cat-count{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--muted);transition:color .25s}
+
+/* LISTING CARDS */
+.listings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.3rem}
+.listing-card{background:#fff;border-radius:18px;overflow:hidden;border:1.5px solid var(--sand-dark);transition:all .25s;cursor:pointer}
+.listing-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--ocean-light)}
+.listing-img{height:175px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:4.5rem}
+.listing-img:hover .listing-img-emoji{transform:scale(1.1)}
+.listing-img-emoji{transition:transform .4s}
+.listing-badge{position:absolute;top:.9rem;left:.9rem;background:var(--sunset);color:#fff;padding:.28rem .75rem;border-radius:50px;font-size:.68rem;font-weight:700;text-transform:uppercase}
+.listing-badge.blue{background:var(--ocean)}
+.listing-badge.green{background:var(--green)}
+.listing-fav{position:absolute;top:.9rem;right:.9rem;background:#fff;border:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.95rem;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
+.listing-fav:hover{transform:scale(1.15)}
+.listing-body{padding:1.2rem}
+.listing-cat{font-size:.68rem;color:var(--ocean);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.35rem}
+.listing-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:.35rem;line-height:1.3}
+.listing-loc{font-size:.78rem;color:var(--muted);margin-bottom:.8rem;display:flex;align-items:center;gap:.25rem}
+.listing-foot{display:flex;align-items:center;justify-content:space-between;padding-top:.75rem;border-top:1px solid var(--sand)}
+.listing-rating{display:flex;align-items:center;gap:.3rem;font-weight:600;font-size:.82rem}
+.listing-actions{display:flex;gap:.45rem}
+.action-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--sand-dark);display:flex;align-items:center;justify-content:center;font-size:.85rem;cursor:pointer;transition:all .2s;text-decoration:none;background:#fff}
+.action-btn:hover{background:var(--green-light);border-color:var(--green-light)}
+.action-btn.wa:hover{background:#25D366;border-color:#25D366}
+
+/* ACTIVITÉS */
+.acts-grid{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:auto;gap:1rem}
+.act-card{border-radius:18px;overflow:hidden;position:relative;cursor:pointer;min-height:200px;display:flex;align-items:flex-end;text-decoration:none;transition:transform .3s}
+.act-card:hover{transform:scale(1.02)}
+.act-card.big{grid-column:span 2;min-height:270px}
+.act-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:4.5rem}
+.act-card.big .act-bg{font-size:6rem}
+.act-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 60%)}
+.act-content{position:relative;z-index:2;padding:1.3rem;color:#fff}
+.act-tag{background:rgba(255,255,255,.2);backdrop-filter:blur(6px);padding:.28rem .75rem;border-radius:50px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:.4rem;display:inline-block}
+.act-name{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;line-height:1.2}
+.act-card.big .act-name{font-size:1.6rem}
+.act-desc{font-size:.78rem;opacity:.8;margin-top:.2rem}
+
+/* TRANSPORT */
+.transport-strip{background:var(--green);padding:1.8rem 2.5rem;display:flex;align-items:center;gap:2rem;overflow-x:auto;scrollbar-width:none}
+.transport-strip::-webkit-scrollbar{display:none}
+.transport-lbl{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:#fff;white-space:nowrap;min-width:140px}
+.transport-chip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);color:#fff;padding:.6rem 1.1rem;border-radius:50px;font-size:.82rem;font-weight:500;white-space:nowrap;cursor:pointer;transition:all .2s;text-decoration:none}
+.transport-chip:hover{background:#fff;color:var(--green)}
+
+/* URGENCES */
+.urgences-section{background:var(--dark);padding:4rem 2.5rem;position:relative;overflow:hidden}
+.urgences-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 80% 50%,rgba(0,107,125,.25) 0%,transparent 60%)}
+.urgences-inner{max-width:1300px;margin:0 auto;position:relative}
+.urgences-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(145px,1fr));gap:.9rem;margin-top:2rem}
+.urg-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:1.3rem .9rem;text-align:center;color:#fff;cursor:pointer;transition:all .25s;text-decoration:none;display:block}
+.urg-card:hover{background:var(--sunset);border-color:var(--sunset);transform:translateY(-3px);color:#fff}
+.urg-icon{font-size:1.9rem;display:block;margin-bottom:.55rem}
+.urg-name{font-weight:600;font-size:.85rem;display:block}
+.urg-num{font-family:'Space Mono',monospace;font-size:.68rem;color:rgba(255,255,255,.5);margin-top:.25rem;display:block}
+
+/* SERVICES DOMICILE */
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.9rem}
+
+/* PLANS */
+.plans-section{padding:5rem 2.5rem;background:var(--sand)}
+.plans-inner{max-width:1200px;margin:0 auto}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;margin-top:3rem}
+.plan{background:#fff;border:2px solid var(--sand-dark);border-radius:22px;padding:2.2rem 1.8rem;position:relative;transition:all .25s}
+.plan.featured{background:var(--ocean);border-color:var(--ocean);color:#fff;transform:scale(1.04);box-shadow:0 20px 50px rgba(0,107,125,.25)}
+.plan:hover:not(.featured){border-color:var(--ocean);transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.plan-badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--sunset);color:#fff;padding:.32rem 1.1rem;border-radius:50px;font-size:.68rem;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.plan-name{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:.3rem}
+.plan-desc{font-size:.8rem;opacity:.65;margin-bottom:1.1rem}
+.plan-price{font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:var(--ocean);margin-bottom:.2rem}
+.plan.featured .plan-price{color:var(--ocean-light)}
+.plan-period{font-size:.75rem;opacity:.55;margin-bottom:1.4rem}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.7rem}
+.plan-feats li{display:flex;align-items:center;gap:.65rem;font-size:.85rem}
+.plan-feats li::before{content:'✓';width:18px;height:18px;background:var(--green-light);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;flex-shrink:0}
+.plan-btn{width:100%;padding:.85rem;border-radius:11px;border:2px solid var(--ocean);background:transparent;color:var(--ocean);font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s}
+.plan.featured .plan-btn{border-color:rgba(255,255,255,.4);color:#fff}
+.plan-btn:hover{background:var(--ocean);color:#fff}
+.plan.featured .plan-btn:hover{background:rgba(255,255,255,.2)}
+
+/* MOMO MODAL */
+.momo-box{display:none;margin-top:1rem;background:rgba(0,0,0,.15);border-radius:11px;padding:1.1rem}
+.momo-title{font-weight:600;font-size:.85rem;margin-bottom:.75rem}
+.momo-ops{display:flex;gap:.5rem;margin-bottom:.75rem}
+.momo-op{flex:1;padding:.5rem;border-radius:8px;font-weight:700;cursor:pointer;font-size:.78rem;transition:all .2s}
+.momo-op.mtn{border:2px solid #FFB300;background:rgba(255,179,0,.1);color:#FFB300}
+.momo-op.orange{border:2px solid #FF6600;background:rgba(255,102,0,.1);color:#FF6600}
+.momo-form{display:none}
+.momo-input{width:100%;padding:.65rem;border-radius:8px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;font-size:.88rem;margin-bottom:.5rem;box-sizing:border-box;font-family:'DM Sans',sans-serif}
+.momo-input::placeholder{color:rgba(255,255,255,.4)}
+.momo-submit{width:100%;padding:.7rem;background:var(--green-light);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.88rem;font-family:'DM Sans',sans-serif;transition:background .2s}
+.momo-submit:hover{background:var(--green)}
+.momo-msg{margin-top:.45rem;font-size:.78rem;color:rgba(255,255,255,.7);text-align:center;min-height:1.1rem}
+
+/* APP CTA */
+.app-section{padding:5rem 2.5rem;background:var(--white)}
+.app-inner{max-width:900px;margin:0 auto;text-align:center}
+.app-feats{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
+.app-feat{display:flex;align-items:center;gap:.65rem;font-size:.88rem;color:var(--text)}
+.app-feat-icon{width:36px;height:36px;background:var(--sand);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.app-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.store-btn{background:var(--dark);color:#fff;padding:.85rem 1.5rem;border-radius:11px;text-decoration:none;display:flex;align-items:center;gap:.7rem;font-size:.82rem;transition:all .2s}
+.store-btn:hover{background:var(--ocean);transform:translateY(-2px);color:#fff}
+.store-icon{font-size:1.35rem}
+.store-text small{display:block;font-size:.65rem;opacity:.6}
+.store-text strong{font-weight:700;font-size:.92rem}
+
+/* FOOTER */
+footer{background:var(--dark);color:rgba(255,255,255,.65);padding:4rem 2.5rem 0}
+.footer-inner{max-width:1300px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2.5rem;margin-bottom:3rem}
+.footer-logo{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:#fff;margin-bottom:1rem}
+.footer-logo span{color:var(--ocean-light)}
+.footer-tagline{font-size:.83rem;line-height:1.7;max-width:270px;margin-bottom:1.3rem}
+.footer-social{display:flex;gap:.6rem}
+.social-btn{width:36px;height:36px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;transition:all .2s;color:#fff;text-decoration:none}
+.social-btn:hover{background:var(--ocean);border-color:var(--ocean)}
+.footer-col h4{color:#fff;font-weight:700;margin-bottom:1rem;font-size:.82rem;text-transform:uppercase;letter-spacing:1px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.55rem}
+.footer-col a{color:rgba(255,255,255,.5);text-decoration:none;font-size:.82rem;transition:color .2s}
+.footer-col a:hover{color:var(--ocean-light)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:1.5rem 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.78rem}
+.syndicat-badge{background:rgba(0,168,198,.1);border:1px solid rgba(0,168,198,.22);color:var(--ocean-light);padding:.35rem .9rem;border-radius:50px;font-size:.72rem;font-weight:700}
+
+/* WHATSAPP FLOAT */
+.float-wa{position:fixed;bottom:2rem;right:2rem;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.55rem;box-shadow:0 8px 24px rgba(37,211,102,.4);cursor:pointer;z-index:999;text-decoration:none;animation:floatAnim 3s ease-in-out infinite;transition:transform .2s}
+.float-wa:hover{transform:scale(1.1)!important;animation:none}
+
+/* MOBILE NAV */
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--dark);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#fff;font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;text-decoration:none;transition:color .2s}
+.mobile-menu a:hover{color:var(--ocean-light)}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+@keyframes floatAnim{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity .55s ease,transform .55s ease}
+.fade-in.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .plans-grid{grid-template-columns:1fr}
+  .plan.featured{transform:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero-stats{display:none}
+  .acts-grid{grid-template-columns:1fr}
+  .act-card.big{grid-column:span 1}
+}
+@media(max-width:640px){
+  nav{padding:1rem 1.2rem}
+  .nav-links,.nav-cta{display:none}
+  .nav-toggle{display:block}
+  .hero-content{padding:0 1.2rem}
+  .section,.plans-section{padding:3rem 1.2rem}
+  .search-section{padding:2rem 1.2rem}
+  .search-bar{flex-direction:column;border-radius:12px}
+  .search-bar select{border-right:none;border-bottom:2px solid var(--sand-dark)}
+  .transport-strip{padding:1.5rem 1.2rem}
+  .urgences-section{padding:3rem 1.2rem}
+  .urgences-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .app-section{padding:3rem 1.2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Kribi<span>Zone</span></div>
+  <ul class="nav-links">
+    <li><a href="#categories">Explorer</a></li>
+    <li><a href="#hebergement">Hébergement</a></li>
+    <li><a href="#activites">Activités</a></li>
+    <li><a href="#transport">Transport</a></li>
+    <li><a href="#urgences">Urgences</a></li>
+    <li><a href="#tarifs">Tarifs</a></li>
+  </ul>
+  <button class="nav-cta" onclick="scrollTo('#tarifs')">Inscrire mon établissement</button>
+  <button class="nav-toggle" onclick="document.getElementById('mobileMenu').classList.toggle('open')">☰</button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+  <a href="#categories" onclick="document.getElementById('mobileMenu').classList.remove('open')">Explorer</a>
+  <a href="#hebergement" onclick="document.getElementById('mobileMenu').classList.remove('open')">Hébergement</a>
+  <a href="#activites" onclick="document.getElementById('mobileMenu').classList.remove('open')">Activités</a>
+  <a href="#transport" onclick="document.getElementById('mobileMenu').classList.remove('open')">Transport</a>
+  <a href="#urgences" onclick="document.getElementById('mobileMenu').classList.remove('open')">Urgences</a>
+  <a href="#tarifs" onclick="document.getElementById('mobileMenu').classList.remove('open')">Tarifs</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🌊 Kribi — Département de l'Océan, Cameroun</div>
+    <h1>La ville <em>entière</em><br>dans votre poche</h1>
+    <p class="hero-sub">Hôtels, restaurants, transport, urgences, activités, artisans, services — tout Kribi digitalisé sur une seule plateforme.</p>
+    <div class="hero-btns">
+      <a href="#categories" class="btn-primary">🗺️ Explorer Kribi</a>
+      <a href="#tarifs" class="btn-outline">Inscrire mon business</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">150+</span><span class="stat-lbl">Établissements</span></div>
+    <div class="stat"><span class="stat-num">12</span><span class="stat-lbl">Catégories</span></div>
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-lbl">Disponible</span></div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg"><path fill="#FDFAF5" d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"/></svg>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<div class="search-section">
+  <div class="search-wrap">
+    <p class="search-title">Que cherchez-vous à Kribi ?</p>
+    <div class="search-bar">
+      <select>
+        <option>Toutes catégories</option>
+        <option>🏨 Hébergement</option>
+        <option>🍽️ Restauration</option>
+        <option>🚗 Transport</option>
+        <option>🏄 Activités</option>
+        <option>🏥 Santé</option>
+        <option>💊 Pharmacies</option>
+        <option>🔧 Maintenance</option>
+        <option>💇 Beauté</option>
+        <option>🛒 Commerces</option>
+        <option>🔒 Sécurité</option>
+        <option>👶 Services à domicile</option>
+        <option>🌿 Écotourisme</option>
+      </select>
+      <input type="text" placeholder="Hôtel vue mer, jet ski, mécanicien, restaurant...">
+      <button class="search-btn">🔍 Rechercher</button>
+    </div>
+    <div class="search-tags">
+      <span class="tag" onclick="setSearch(this)">🌊 Chutes de la Lobé</span>
+      <span class="tag" onclick="setSearch(this)">🐢 Tortues marines</span>
+      <span class="tag" onclick="setSearch(this)">🏖️ Plages de Kribi</span>
+      <span class="tag" onclick="setSearch(this)">🍤 Restaurant poisson</span>
+      <span class="tag" onclick="setSearch(this)">🚌 Bus Douala</span>
+      <span class="tag" onclick="setSearch(this)">💊 Pharmacies</span>
+      <span class="tag" onclick="setSearch(this)">🏨 Hôtel avec piscine</span>
+      <span class="tag" onclick="setSearch(this)">🌿 Village Pygmées</span>
+    </div>
+  </div>
+</div>
+
+<!-- CATÉGORIES -->
+<div id="categories">
+  <div class="section fade-in">
+    <div class="sec-head">
+      <div><p class="sec-label">Tout Kribi</p><h2 class="sec-title">Explorer par catégorie</h2></div>
+      <a href="#" class="sec-link">Voir tout →</a>
+    </div>
+    <div class="cats-grid">
+      <a href="#" class="cat-card"><span class="cat-icon">🏨</span><span class="cat-name">Hébergement</span><span class="cat-count">48 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🍽️</span><span class="cat-name">Restauration</span><span class="cat-count">35 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🚗</span><span class="cat-name">Transport</span><span class="cat-count">22 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🏄</span><span class="cat-name">Activités</span><span class="cat-count">30 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🏥</span><span class="cat-name">Santé</span><span class="cat-count">15 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">💊</span><span class="cat-name">Pharmacies</span><span class="cat-count">12 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🔧</span><span class="cat-name">Maintenance</span><span class="cat-count">18 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">💇</span><span class="cat-name">Beauté & Bien-être</span><span class="cat-count">20 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🛒</span><span class="cat-name">Commerces</span><span class="cat-count">25 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🔒</span><span class="cat-name">Sécurité</span><span class="cat-count">8 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">👶</span><span class="cat-name">Services à domicile</span><span class="cat-count">14 fiches</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🌿</span><span class="cat-name">Écotourisme</span><span class="cat-count">10 fiches</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- HÉBERGEMENTS -->
+<div id="hebergement" style="background:rgba(245,230,200,.35)">
+  <div class="section fade-in">
+    <div class="sec-head">
+      <div><p class="sec-label">Sélection du Syndicat</p><h2 class="sec-title">Hébergements en vedette</h2><div class="sec-bar"></div></div>
+      <a href="#" class="sec-link">Tous les hébergements →</a>
+    </div>
+    <div class="listings-grid">
+      <div class="listing-card">
+        <div class="listing-img" style="background:linear-gradient(135deg,#006B7D,#00A8C6)"><span class="listing-img-emoji">🌊</span><span class="listing-badge">⭐ En vedette</span><button class="listing-fav" onclick="toggleFav(this)">🤍</button></div>
+        <div class="listing-body"><p class="listing-cat">🏨 Hôtel · Vue mer</p><h3 class="listing-name">Point Vert Kribi</h3><p class="listing-loc">📍 Bord de plage, Kribi Centre</p><div class="listing-foot"><span class="listing-rating">⭐ 4.7 <small style="font-weight:400;color:var(--muted)">(124)</small></span><div class="listing-actions"><a href="tel:+237655000000" class="action-btn" title="Appeler">📞</a><a href="https://wa.me/237655000000" class="action-btn wa" target="_blank" title="WhatsApp">💬</a></div></div></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img" style="background:linear-gradient(135deg,#2D6A4F,#52B788)"><span class="listing-img-emoji">🌴</span><span class="listing-badge green">Membre Syndicat</span><button class="listing-fav" onclick="toggleFav(this)">🤍</button></div>
+        <div class="listing-body"><p class="listing-cat">🏨 Hôtel · Piscine</p><h3 class="listing-name">Hôtel Émeraude</h3><p class="listing-loc">📍 Quartier Mahalet, Kribi</p><div class="listing-foot"><span class="listing-rating">⭐ 4.5 <small style="font-weight:400;color:var(--muted)">(89)</small></span><div class="listing-actions"><a href="tel:+237655000001" class="action-btn">📞</a><a href="https://wa.me/237655000001" class="action-btn wa" target="_blank">💬</a></div></div></div>
+      </div>
+      <div class="listing-card">
+        <div class="listing-img" style="background:linear-gradient(135deg,#E07B39,#F4A261)"><span class="listing-img-emoji">🌅</span><span class="listing-badge blue">💎 Premium</span><button class="listing-fav" onclick="toggleFav(this)">🤍</button></div>
+        <div class="listing-body"><p class="listing-cat">🏡 Villa · Vue océan</p><h3 class="listing-name">Villa Océane — 3 chambres</h3><p class="listing-loc">📍 Bord de mer, plage privée</p><div class="listing-foot"><span class="listing-rating">⭐ 4.9 <small style="font-weight:400;color:var(--muted)">(47)</small></span><div class="listing-actions"><a href="tel:+237655000002" class="action-btn">📞</a><a href="https://wa.me/237655000002" class="action-btn wa" target="_blank">💬</a></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVITÉS -->
+<div id="activites">
+  <div class="section fade-in">
+    <div class="sec-head">
+      <div><p class="sec-label">Nature & Aventure</p><h2 class="sec-title">Activités & Excursions</h2></div>
+      <a href="#" class="sec-link">Tout voir →</a>
+    </div>
+    <div class="acts-grid">
+      <a href="#" class="act-card big"><div class="act-bg" style="background:linear-gradient(135deg,#006B7D,#00A8C6)">🌊</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Site naturel · Incontournable</span><p class="act-name">Chutes de la Lobé</p><p class="act-desc">Là où la rivière rejoint directement l'océan</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#2D6A4F,#52B788)">🐢</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Écotourisme</span><p class="act-name">Tortues marines</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#E07B39,#F4A261)">🛶</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Nature</span><p class="act-name">Pirogue en mangrove</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#5E4B8B,#9B72CF)">🌿</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Culture · Bagyéli</span><p class="act-name">Village des Pygmées</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#0077B6,#00B4D8)">🚤</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Nautique</span><p class="act-name">Jet ski & Kayak</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#780000,#C1121F)">🏍️</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Aventure</span><p class="act-name">Quad & Vélo</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#1A2E33,#2D6A4F)">🎣</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Culture</span><p class="act-name">Pêche artisanale</p></div></a>
+      <a href="#" class="act-card"><div class="act-bg" style="background:linear-gradient(135deg,#004552,#006B7D)">🌲</div><div class="act-overlay"></div><div class="act-content"><span class="act-tag">Randonnée</span><p class="act-name">Campo Ma'an & Forêt</p></div></a>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSPORT -->
+<div id="transport" class="transport-strip">
+  <p class="transport-lbl">🚗 Transport à Kribi</p>
+  <a href="#" class="transport-chip">🚌 TRANSCAM — Douala & Yaoundé</a>
+  <a href="#" class="transport-chip">🚗 Voitures privées</a>
+  <a href="#" class="transport-chip">🛺 Moto-taxis</a>
+  <a href="#" class="transport-chip">🚕 Taxis conventionnels</a>
+  <a href="#" class="transport-chip">⛵ Transferts côtiers</a>
+  <a href="#" class="transport-chip">🚘 Location de voiture</a>
+  <a href="#" class="transport-chip">🧭 Guides & Chauffeurs</a>
+</div>
+
+<!-- URGENCES -->
+<div id="urgences" class="urgences-section">
+  <div class="urgences-inner">
+    <p style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--sunset);text-transform:uppercase;letter-spacing:2px;">⚡ Accès rapide</p>
+    <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;margin:.3rem 0 .4rem;">Urgences & Services essentiels</h2>
+    <p style="color:rgba(255,255,255,.5);font-size:.87rem;">Un clic pour joindre les services dont vous avez besoin, 24h/24</p>
+    <div class="urgences-grid">
+      <a href="tel:18" class="urg-card"><span class="urg-icon">🚒</span><span class="urg-name">Pompiers</span><span class="urg-num">18</span></a>
+      <a href="tel:17" class="urg-card"><span class="urg-icon">👮</span><span class="urg-name">Police</span><span class="urg-num">17</span></a>
+      <a href="tel:17" class="urg-card"><span class="urg-icon">🪖</span><span class="urg-name">Gendarmerie</span><span class="urg-num">17</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">🏥</span><span class="urg-name">Hôpital district</span><span class="urg-num">Urgences</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">💊</span><span class="urg-name">Pharmacies de garde</span><span class="urg-num">Voir liste</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">🔒</span><span class="urg-name">Sécurité privée</span><span class="urg-num">Réserver</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">❄️</span><span class="urg-name">Clim & Froid</span><span class="urg-num">Dépannage</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">⚡</span><span class="urg-name">Électricité</span><span class="urg-num">Dépannage</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">🔧</span><span class="urg-name">Plomberie</span><span class="urg-num">Dépannage</span></a>
+      <a href="#" class="urg-card"><span class="urg-icon">🚘</span><span class="urg-name">Mécanicien</span><span class="urg-num">Trouver</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES DOMICILE -->
+<div>
+  <div class="section fade-in">
+    <div style="margin-bottom:2rem"><p class="sec-label">Services personnels</p><h2 class="sec-title">Tout à domicile</h2></div>
+    <div class="services-grid">
+      <a href="#" class="cat-card"><span class="cat-icon">👶</span><span class="cat-name">Nounous</span><span class="cat-count">Réserver</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">👨‍🍳</span><span class="cat-name">Cuisiniers privés</span><span class="cat-count">Réserver</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">💇‍♀️</span><span class="cat-name">Coiffeurs</span><span class="cat-count">Trouver</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">💆</span><span class="cat-name">Massages</span><span class="cat-count">Réserver</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🧹</span><span class="cat-name">Ménage & Nettoyage</span><span class="cat-count">Contacter</span></a>
+      <a href="#" class="cat-card"><span class="cat-icon">🛡️</span><span class="cat-name">Escorte & Sécurité</span><span class="cat-count">Réserver</span></a>
+    </div>
+  </div>
+</div>
+
+<!-- APP CTA -->
+<div class="app-section fade-in">
+  <div class="app-inner">
+    <p class="sec-label" style="justify-content:center;display:flex;">Bientôt disponible</p>
+    <h2 style="font-size:2.2rem;font-weight:700;margin-bottom:.8rem;">L'application mobile KribiZone</h2>
+    <div style="width:48px;height:4px;background:var(--ocean-light);border-radius:2px;margin:0 auto 1.5rem"></div>
+    <p style="color:var(--muted);line-height:1.7;max-width:520px;margin:0 auto;">Téléchargez l'app et accédez à toute la vie de Kribi depuis votre smartphone. GPS, appels directs, réservations et urgences en un seul clic.</p>
+    <div class="app-feats">
+      <div class="app-feat"><div class="app-feat-icon">📍</div>Géolocalisation — Trouvez autour de vous</div>
+      <div class="app-feat"><div class="app-feat-icon">🔔</div>Notifications — Offres & alertes locales</div>
+      <div class="app-feat"><div class="app-feat-icon">⭐</div>Avis — Évaluez en temps réel</div>
+      <div class="app-feat"><div class="app-feat-icon">📞</div>Appel direct — Sans chercher le numéro</div>
+    </div>
+    <div class="app-btns">
+      <a href="#" class="store-btn"><span class="store-icon">🤖</span><div class="store-text"><small>Disponible sur</small><strong>Google Play</strong></div></a>
+      <a href="#" class="store-btn"><span class="store-icon">🍎</span><div class="store-text"><small>Télécharger sur</small><strong>App Store</strong></div></a>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS / TARIFS -->
+<div id="tarifs" class="plans-section">
+  <div class="plans-inner">
+    <div style="text-align:center;max-width:580px;margin:0 auto">
+      <p class="sec-label" style="display:block;text-align:center;">Pour les professionnels</p>
+      <h2 style="font-size:2.4rem;font-weight:700;">Rejoignez KribiZone</h2>
+      <p style="color:var(--muted);margin-top:.7rem;line-height:1.7;">Faites partie de la première plateforme digitale de Kribi. Visibilité garantie, clients directs, revenus simplifiés.</p>
+    </div>
+    <div class="plans-grid">
+      <!-- GRATUIT -->
+      <div class="plan">
+        <p class="plan-name">Vitrine</p>
+        <p class="plan-desc">Pour exister digitalement</p>
+        <p class="plan-price">Gratuit</p>
+        <p class="plan-period">pour toujours</p>
+        <ul class="plan-feats">
+          <li>Fiche établissement</li>
+          <li>Téléphone visible</li>
+          <li>Photo de profil</li>
+          <li>Catégorie + adresse</li>
+        </ul>
+        <button class="plan-btn" onclick="window.location.href='mailto:info@kribizone.com?subject=Fiche gratuite'">Créer ma fiche gratuite</button>
+      </div>
+      <!-- PRO -->
+      <div class="plan featured">
+        <div class="plan-badge">⭐ Le plus populaire</div>
+        <p class="plan-name">Pro</p>
+        <p class="plan-desc">Pour les professionnels sérieux</p>
+        <p class="plan-price">15 000 FCFA</p>
+        <p class="plan-period">/mois</p>
+        <ul class="plan-feats">
+          <li>Tout du plan Vitrine</li>
+          <li>Mise en avant "En vedette"</li>
+          <li>Galerie 10 photos</li>
+          <li>Bouton WhatsApp direct</li>
+          <li>Badge Membre Syndicat</li>
+          <li>Priorité dans la recherche</li>
+          <li>Statistiques de visites</li>
+        </ul>
+        <button class="plan-btn" onclick="ouvrirMomo('pro')">Souscrire — Pro</button>
+        <div class="momo-box" id="momo-pro">
+          <p class="momo-title" style="color:#fff;">💳 Payer par Mobile Money</p>
+          <div class="momo-ops">
+            <button class="momo-op mtn" onclick="selectOp('pro','mtn')">📱 MTN MoMo</button>
+            <button class="momo-op orange" onclick="selectOp('pro','orange')">🟠 Orange Money</button>
+          </div>
+          <div class="momo-form" id="momo-form-pro">
+            <input class="momo-input" type="tel" id="phone-pro" placeholder="Ex: 655 000 000">
+            <button class="momo-submit" onclick="payer('pro','15000')">✅ Confirmer le paiement</button>
+            <p class="momo-msg" id="msg-pro"></p>
+          </div>
+        </div>
+      </div>
+      <!-- PREMIUM -->
+      <div class="plan">
+        <p class="plan-name">Premium</p>
+        <p class="plan-desc">Dominez votre catégorie</p>
+        <p class="plan-price">35 000 FCFA</p>
+        <p class="plan-period">/mois</p>
+        <ul class="plan-feats">
+          <li>Tout du plan Pro</li>
+          <li>Position N°1 catégorie</li>
+          <li>Photos + vidéos illimités</li>
+          <li>Réservation en ligne</li>
+          <li>Page dédiée personnalisée</li>
+          <li>Newsletter sponsorisée</li>
+          <li>Rapport mensuel détaillé</li>
+          <li>Support WhatsApp dédié</li>
+        </ul>
+        <button class="plan-btn" onclick="ouvrirMomo('premium')">Souscrire — Premium</button>
+        <div class="momo-box" id="momo-premium">
+          <p class="momo-title">💳 Payer par Mobile Money</p>
+          <div class="momo-ops">
+            <button class="momo-op mtn" onclick="selectOp('premium','mtn')">📱 MTN MoMo</button>
+            <button class="momo-op orange" onclick="selectOp('premium','orange')">🟠 Orange Money</button>
+          </div>
+          <div class="momo-form" id="momo-form-premium">
+            <input class="momo-input" type="tel" id="phone-premium" placeholder="Ex: 655 000 000">
+            <button class="momo-submit" onclick="payer('premium','35000')">✅ Confirmer le paiement</button>
+            <p class="momo-msg" id="msg-premium"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Revenus additionnels -->
+    <div style="margin-top:2.5rem;background:#fff;border-radius:18px;padding:2rem;border:1.5px solid var(--sand-dark)">
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:1.3rem;">💡 Autres sources de revenus</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem">
+        <div style="background:var(--sand);border-radius:11px;padding:1.1rem"><p style="font-size:1.2rem;margin-bottom:.4rem">📢</p><p style="font-weight:700;margin-bottom:.2rem;font-size:.9rem;">Bannières pub</p><p style="font-size:.78rem;color:var(--muted);">Espaces publicitaires pour hôtels & commerces</p></div>
+        <div style="background:var(--sand);border-radius:11px;padding:1.1rem"><p style="font-size:1.2rem;margin-bottom:.4rem">🎟️</p><p style="font-weight:700;margin-bottom:.2rem;font-size:.9rem;">Commission réservations</p><p style="font-size:.78rem;color:var(--muted);">5–10% sur chaque réservation générée</p></div>
+        <div style="background:var(--sand);border-radius:11px;padding:1.1rem"><p style="font-size:1.2rem;margin-bottom:.4rem">📰</p><p style="font-weight:700;margin-bottom:.2rem;font-size:.9rem;">Newsletter sponsorisée</p><p style="font-size:.78rem;color:var(--muted);">Envoyée aux touristes & résidents de Kribi</p></div>
+        <div style="background:var(--sand);border-radius:11px;padding:1.1rem"><p style="font-size:1.2rem;margin-bottom:.4rem">📱</p><p style="font-weight:700;margin-bottom:.2rem;font-size:.9rem;">Application mobile</p><p style="font-size:.78rem;color:var(--muted);">Abonnements premium + pub géolocalisée</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-logo">Kribi<span>Zone</span></p>
+        <p class="footer-tagline">La première plateforme digitale de Kribi — tourisme, commerce, services et urgences. Un projet du Syndicat Patronal de l'Hôtellerie, Département de l'Océan, Cameroun.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn">📘</a>
+          <a href="#" class="social-btn">📸</a>
+          <a href="#" class="social-btn">🎵</a>
+          <a href="#" class="social-btn">💬</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Explorer</h4>
+        <ul>
+          <li><a href="#">Hébergements</a></li>
+          <li><a href="#">Restaurants</a></li>
+          <li><a href="#">Activités</a></li>
+          <li><a href="#">Transport</a></li>
+          <li><a href="#">Commerces</a></li>
+          <li><a href="#">Écotourisme</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Urgences</a></li>
+          <li><a href="#">Santé & Pharmacies</a></li>
+          <li><a href="#">Sécurité</a></li>
+          <li><a href="#">Services à domicile</a></li>
+          <li><a href="#">Maintenance</a></li>
+          <li><a href="#">Cuisine privée</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>KribiZone Pro</h4>
+        <ul>
+          <li><a href="#">Inscrire mon business</a></li>
+          <li><a href="#">Tarifs & abonnements</a></li>
+          <li><a href="#">Espace partenaires</a></li>
+          <li><a href="#">Syndicat Hôtellerie</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="mailto:info@kribizone.com">info@kribizone.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 KribiZone — Tous droits réservés. Kribi, Cameroun.</p>
+      <span class="syndicat-badge">🏨 Syndicat Patronal des Industries de l'Hôtellerie — Dép. de l'Océan</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/237655000000" class="float-wa" target="_blank" rel="noopener" aria-label="WhatsApp KribiZone">💬</a>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',function(){
+  var n=document.getElementById('navbar');
+  n.style.background=window.scrollY>60?'rgba(13,27,30,.98)':'rgba(13,27,30,.88)';
+});
+
+// Smooth scroll
+function scrollTo(sel){document.querySelector(sel)?.scrollIntoView({behavior:'smooth'});}
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});}
+  });
+});
+
+// Search tags
+function setSearch(el){document.querySelector('.search-bar input').value=el.textContent;}
+
+// Favorites
+function toggleFav(btn){btn.textContent=btn.textContent==='🤍'?'❤️':'🤍';}
+
+// Fade in observer
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(function(el){obs.observe(el);});
+
+// Mobile Money
+var selectedOp={};
+function ouvrirMomo(plan){
+  var box=document.getElementById('momo-'+plan);
+  box.style.display=box.style.display==='block'?'none':'block';
+}
+function selectOp(plan,op){
+  selectedOp[plan]=op;
+  document.getElementById('momo-form-'+plan).style.display='block';
+  ['mtn','orange'].forEach(function(o){
+    var btn=document.querySelector('#momo-'+plan+' .momo-op.'+o);
+    if(btn)btn.style.opacity=(o===op)?'1':'0.45';
+  });
+}
+function payer(plan,montant){
+  var phone=document.getElementById('phone-'+plan).value.trim();
+  var msg=document.getElementById('msg-'+plan);
+  var op=selectedOp[plan];
+  if(!phone||phone.length<8){msg.textContent='⚠️ Entrez un numéro valide';msg.style.color='#F4A261';return;}
+  if(!op){msg.textContent='⚠️ Choisissez MTN ou Orange Money';msg.style.color='#F4A261';return;}
+  msg.textContent='⏳ Traitement en cours...';msg.style.color='rgba(255,255,255,.7)';
+  // Simulation — en production, connecter à l'API WordPress ou CinetPay
+  setTimeout(function(){
+    var ref='KZ-'+op.toUpperCase()+'-'+plan.toUpperCase()+'-'+Date.now();
+    var msgs={
+      mtn:'📱 Demande envoyée ! Ouvrez MTN Mobile Money et validez '+parseInt(montant).toLocaleString()+' FCFA. Réf: '+ref,
+      orange:'🟠 Demande envoyée ! Validez '+parseInt(montant).toLocaleString()+' FCFA sur Orange Money. Réf: '+ref
+    };
+    msg.textContent=msgs[op];
+    msg.style.color='#52B788';
+    // Notifier via WhatsApp (backup)
+    var waMsg=encodeURIComponent('🌊 KribiZone — Nouveau paiement\nPlan: '+plan+'\nMontant: '+parseInt(montant).toLocaleString()+' FCFA\nOpérateur: '+op+'\nTéléphone: '+phone+'\nRéférence: '+ref);
+    setTimeout(function(){
+      if(confirm('Paiement enregistré ✅\n\nVoulez-vous confirmer via WhatsApp ?'))
+        window.open('https://wa.me/237655000000?text='+waMsg,'_blank');
+    },1000);
+  },1800);
+}
+</script>
+</body>
+</html>
